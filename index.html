@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doğa Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --white:#FAFAF8;--off:#F2F0EC;--lgray:#E8E5DF;--mgray:#B8B3AA;
+  --dgray:#3A3733;--black:#1A1917;--accent:#C4A882;--adark:#9A7D5E;
+  --fd:'Cormorant Garamond',serif;--fb:'DM Sans',sans-serif;
+}
+body{font-family:var(--fb);background:var(--white);color:var(--black);overflow-x:hidden;}
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;
+  justify-content:space-between;padding:18px 60px;background:rgba(250,250,248,0.95);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--lgray);}
+.logo{font-family:var(--fd);font-size:1.7rem;font-weight:600;letter-spacing:.08em;
+  color:var(--black);cursor:pointer;user-select:none;}
+.logo span{color:var(--accent);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links li span{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--dgray);cursor:pointer;font-weight:500;transition:color .3s;}
+.nav-links li span:hover,.nav-links li span.active{color:var(--adark);}
+.lang-sw{display:flex;gap:6px;}
+.lb{background:none;border:1px solid var(--lgray);padding:4px 10px;font-size:.7rem;
+  letter-spacing:.1em;cursor:pointer;color:var(--mgray);font-family:var(--fb);
+  text-transform:uppercase;transition:all .3s;border-radius:2px;}
+.lb.active,.lb:hover{background:var(--black);color:var(--white);border-color:var(--black);}
+.nav-right{display:flex;gap:16px;align-items:center;}
+
+/* HERO */
+.hero{height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:80px;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px;}
+.hero-tag{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.hero-tag::before{content:'';width:36px;height:1px;background:var(--accent);}
+.hero-title{font-family:var(--fd);font-size:clamp(2.8rem,4.5vw,5rem);font-weight:300;
+  line-height:1.08;margin-bottom:28px;}
+.hero-title em{font-style:italic;color:var(--adark);}
+.hero-desc{font-size:.92rem;line-height:1.8;color:var(--dgray);max-width:400px;
+  margin-bottom:44px;font-weight:300;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-p{background:var(--black);color:var(--white);padding:13px 34px;font-size:.78rem;
+  letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;
+  font-family:var(--fb);transition:background .3s;font-weight:500;}
+.btn-p:hover{background:var(--adark);}
+.btn-s{background:none;color:var(--black);padding:13px 34px;font-size:.78rem;
+  letter-spacing:.15em;text-transform:uppercase;border:1px solid var(--dgray);
+  cursor:pointer;font-family:var(--fb);transition:all .3s;font-weight:500;}
+.btn-s:hover{border-color:var(--accent);color:var(--adark);}
+.hero-right{background:var(--off);display:flex;align-items:center;justify-content:center;}
+.hero-img-box{width:320px;height:320px;border:1px solid var(--lgray);background:var(--white);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  box-shadow:0 20px 60px rgba(0,0,0,.06);}
+.hero-img-box svg{width:70px;height:70px;opacity:.25;}
+.hero-img-box p{font-size:.7rem;color:var(--mgray);letter-spacing:.1em;text-transform:uppercase;}
+
+/* SECTIONS */
+.sec{padding:90px 80px;}
+.sec-sm{padding:55px 80px;}
+.sec-hd{text-align:center;margin-bottom:60px;}
+.sec-tag{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:14px;display:block;}
+.sec-title{font-family:var(--fd);font-size:clamp(2rem,3vw,3.2rem);font-weight:300;line-height:1.1;}
+.sec-title em{font-style:italic;}
+.divider{width:55px;height:1px;background:var(--accent);margin:20px auto 0;}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;max-width:860px;margin:0 auto;}
+.feat-item{text-align:center;}
+.feat-item svg{width:34px;height:34px;margin-bottom:14px;}
+.feat-item h4{font-family:var(--fd);font-size:1.15rem;font-weight:400;margin-bottom:7px;}
+.feat-item p{font-size:.8rem;color:var(--mgray);line-height:1.7;}
+
+/* SERVICES */
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.srv-card{border:1px solid var(--lgray);overflow:hidden;transition:all .4s;background:var(--white);}
+.srv-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,.08);border-color:var(--accent);}
+.srv-img{aspect-ratio:4/3;background:var(--off);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+.srv-img svg{width:52px;height:52px;}
+.srv-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.srv-lbl{padding:14px 18px;font-family:var(--fd);font-size:1.2rem;font-weight:400;
+  text-align:center;border-top:1px solid var(--lgray);}
+
+/* MARQUEE */
+.marquee{background:var(--black);padding:16px 0;overflow:hidden;white-space:nowrap;}
+.mtrack{display:inline-flex;gap:26px;align-items:center;animation:mq 28s linear infinite;}
+.mtrack span{font-size:.75rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.8);white-space:nowrap;}
+.mtrack .dot{color:var(--accent);}
+@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* PRODUCTS */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.prod-card{border:1px solid var(--lgray);overflow:hidden;transition:all .4s;background:var(--white);}
+.prod-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,.08);border-color:var(--accent);}
+.prod-img{aspect-ratio:4/3;background:var(--off);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.prod-img img{width:100%;height:100%;object-fit:cover;}
+.prod-img svg{width:44px;height:44px;opacity:.2;}
+.prod-info{padding:20px;}
+.prod-cat{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;}
+.prod-name{font-family:var(--fd);font-size:1.35rem;font-weight:400;margin-bottom:8px;}
+.prod-desc{font-size:.8rem;color:var(--dgray);line-height:1.7;font-weight:300;}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;}
+.about-img-side{background:var(--lgray);min-height:460px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.about-img-side img{width:100%;height:100%;object-fit:cover;}
+.about-img-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;height:460px;}
+.about-img-ph svg{width:55px;height:55px;opacity:.22;}
+.about-img-ph p{font-size:.7rem;color:var(--mgray);letter-spacing:.1em;text-transform:uppercase;}
+.about-txt{padding:72px 64px;display:flex;flex-direction:column;justify-content:center;background:var(--off);}
+.about-txt h2{font-family:var(--fd);font-size:clamp(1.8rem,2.5vw,2.8rem);font-weight:300;line-height:1.15;margin-bottom:24px;}
+.about-txt h2 em{font-style:italic;color:var(--adark);}
+.about-txt p{font-size:.88rem;line-height:1.9;color:var(--dgray);margin-bottom:14px;font-weight:300;}
+.stats{display:flex;gap:36px;margin-top:36px;padding-top:36px;border-top:1px solid var(--lgray);}
+.stat-n{font-family:var(--fd);font-size:2.4rem;font-weight:300;color:var(--adark);line-height:1;}
+.stat-l{font-size:.68rem;color:var(--mgray);letter-spacing:.12em;text-transform:uppercase;margin-top:5px;}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;}
+.contact-info h3{font-family:var(--fd);font-size:1.7rem;font-weight:300;margin-bottom:28px;}
+.ci-item{display:flex;gap:14px;margin-bottom:24px;align-items:flex-start;}
+.ci-icon{width:38px;height:38px;background:var(--off);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ci-icon svg{width:17px;height:17px;}
+.ci-lbl{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mgray);display:block;margin-bottom:3px;}
+.ci-val{font-size:.88rem;color:var(--dgray);}
+.soc-links{margin-top:36px;}
+.soc-links h4{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mgray);margin-bottom:14px;}
+.soc-row{display:flex;gap:10px;}
+.soc-btn{width:42px;height:42px;border:1px solid var(--lgray);display:flex;align-items:center;
+  justify-content:center;text-decoration:none;color:var(--dgray);transition:all .3s;}
+.soc-btn:hover{background:var(--black);color:var(--white);border-color:var(--black);}
+.soc-btn svg{width:17px;height:17px;}
+.contact-form h3{font-family:var(--fd);font-size:1.7rem;font-weight:300;margin-bottom:28px;}
+.fg{margin-bottom:18px;}
+.fg label{display:block;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mgray);margin-bottom:7px;}
+.fg input,.fg textarea,.fg select{width:100%;padding:11px 14px;border:1px solid var(--lgray);
+  background:var(--white);font-family:var(--fb);font-size:.86rem;color:var(--black);outline:none;transition:border .3s;-webkit-appearance:none;}
+.fg input:focus,.fg textarea:focus{border-color:var(--accent);}
+.fg textarea{height:110px;resize:vertical;}
+
+/* FOOTER */
+footer{background:var(--black);color:var(--white);padding:56px 80px 28px;}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:56px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.07);}
+.ft-brand h3{font-family:var(--fd);font-size:1.9rem;font-weight:300;margin-bottom:14px;}
+.ft-brand h3 span{color:var(--accent);}
+.ft-brand p{font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.8;font-weight:300;}
+.ft-col h4{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;}
+.ft-col ul{list-style:none;}
+.ft-col ul li{margin-bottom:9px;}
+.ft-col ul li span{font-size:.82rem;color:rgba(255,255,255,.5);cursor:pointer;transition:color .3s;}
+.ft-col ul li span:hover{color:var(--white);}
+.ft-col p{font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:7px;line-height:1.7;}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;padding-top:22px;}
+.ft-bot p{font-size:.72rem;color:rgba(255,255,255,.28);letter-spacing:.04em;}
+
+/* WHATSAPP */
+.wa-float{position:fixed;bottom:30px;left:30px;z-index:999;width:50px;height:50px;
+  border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(37,211,102,.35);text-decoration:none;transition:transform .3s;}
+.wa-float:hover{transform:scale(1.1);}
+.wa-float svg{width:25px;height:25px;fill:white;}
+
+/* ADMIN */
+.admin-wrap{display:grid;grid-template-columns:250px 1fr;min-height:100vh;}
+.admin-side{background:var(--black);display:flex;flex-direction:column;}
+.admin-logo{padding:28px 24px;border-bottom:1px solid rgba(255,255,255,.06);
+  font-family:var(--fd);font-size:1.4rem;font-weight:300;color:var(--white);}
+.admin-logo span{color:var(--accent);}
+.admin-nav{padding:16px 0;flex:1;}
+.ani{display:flex;gap:11px;align-items:center;padding:12px 24px;cursor:pointer;
+  font-size:.8rem;color:rgba(255,255,255,.45);transition:all .3s;}
+.ani:hover,.ani.active{background:rgba(255,255,255,.05);color:var(--white);}
+.ani.active{border-left:2px solid var(--accent);}
+.ani svg{width:15px;height:15px;opacity:.7;}
+.admin-exit{padding:18px 24px;border-top:1px solid rgba(255,255,255,.06);}
+.admin-exit button{width:100%;padding:9px;background:none;border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.35);font-family:var(--fb);font-size:.75rem;cursor:pointer;
+  letter-spacing:.1em;text-transform:uppercase;transition:all .3s;}
+.admin-exit button:hover{border-color:#e74c3c;color:#e74c3c;}
+.admin-main{padding:44px;background:var(--off);overflow-y:auto;}
+.ap{display:none;}
+.ap.active{display:block;}
+.ap-hd{margin-bottom:32px;}
+.ap-hd h2{font-family:var(--fd);font-size:1.9rem;font-weight:300;margin-bottom:5px;}
+.ap-hd p{font-size:.8rem;color:var(--mgray);}
+.sc-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:32px;}
+.sc{background:var(--white);padding:24px;border:1px solid var(--lgray);}
+.sc-num{font-family:var(--fd);font-size:2.6rem;font-weight:300;color:var(--adark);}
+.sc-lbl{font-size:.72rem;color:var(--mgray);letter-spacing:.1em;text-transform:uppercase;margin-top:5px;}
+.pa{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.ab{padding:9px 22px;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  cursor:pointer;font-family:var(--fb);transition:all .3s;font-weight:500;}
+.ab-p{background:var(--black);color:var(--white);border:none;}
+.ab-p:hover{background:var(--adark);}
+.ab-s{background:none;color:var(--dgray);border:1px solid var(--lgray);}
+.ab-s:hover{border-color:var(--dgray);}
+.ab-d{background:none;color:#e74c3c;border:1px solid #e74c3c;}
+.ab-d:hover{background:#e74c3c;color:white;}
+.at{background:var(--white);border:1px solid var(--lgray);overflow:hidden;}
+.at table{width:100%;border-collapse:collapse;}
+.at thead{background:var(--off);}
+.at th{padding:13px 18px;text-align:left;font-size:.68rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--mgray);font-weight:500;border-bottom:1px solid var(--lgray);}
+.at td{padding:14px 18px;border-bottom:1px solid var(--off);font-size:.82rem;color:var(--dgray);vertical-align:middle;}
+.at tr:last-child td{border-bottom:none;}
+.at tr:hover td{background:var(--off);}
+.ath{width:50px;height:38px;object-fit:cover;border:1px solid var(--lgray);}
+.athp{width:50px;height:38px;background:var(--off);border:1px solid var(--lgray);display:flex;align-items:center;justify-content:center;}
+.athp svg{width:14px;height:14px;opacity:.25;}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--off);}
+.login-box{background:var(--white);padding:52px 44px;border:1px solid var(--lgray);width:400px;max-width:95vw;}
+.login-box h2{font-family:var(--fd);font-size:1.9rem;font-weight:300;margin-bottom:7px;}
+.login-box p{font-size:.8rem;color:var(--mgray);margin-bottom:32px;}
+.login-err{background:#fff5f5;border:1px solid #fed7d7;color:#c53030;padding:11px 14px;font-size:.8rem;margin-bottom:18px;display:none;}
+
+/* MODAL */
+.modal-ov{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.5);align-items:center;justify-content:center;}
+.modal-ov.open{display:flex;}
+.modal{background:var(--white);width:540px;max-width:95vw;max-height:90vh;overflow-y:auto;}
+.mhd{padding:26px 30px;border-bottom:1px solid var(--lgray);display:flex;justify-content:space-between;align-items:center;}
+.mhd h3{font-family:var(--fd);font-size:1.4rem;font-weight:300;}
+.mcl{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--mgray);transition:color .3s;}
+.mcl:hover{color:var(--black);}
+.mbd{padding:30px;}
+.upl-area{border:2px dashed var(--lgray);padding:36px;text-align:center;cursor:pointer;transition:all .3s;margin-bottom:16px;}
+.upl-area:hover{border-color:var(--accent);}
+.upl-area p{font-size:.8rem;color:var(--mgray);margin-top:9px;}
+.prev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px;}
+.prev-item{position:relative;aspect-ratio:1;}
+.prev-item img{width:100%;height:100%;object-fit:cover;border:1px solid var(--lgray);}
+.prev-rm{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;
+  background:#e74c3c;color:white;border:none;cursor:pointer;font-size:11px;
+  display:flex;align-items:center;justify-content:center;}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;z-index:9999;background:var(--black);color:var(--white);
+  padding:13px 22px;font-size:.8rem;transform:translateY(80px);opacity:0;transition:all .4s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav{padding:18px 28px;}
+  .sec{padding:70px 36px;}.sec-sm{padding:44px 36px;}
+  .hero{grid-template-columns:1fr;height:auto;}
+  .hero-left{padding:56px 36px;}
+  .hero-right{min-height:260px;}
+  .about-grid{grid-template-columns:1fr;}
+  .prod-grid{grid-template-columns:repeat(2,1fr);}
+  .srv-grid{grid-template-columns:repeat(2,1fr);}
+  .contact-grid{grid-template-columns:1fr;gap:44px;}
+  .ft-top{grid-template-columns:1fr 1fr;}
+  footer{padding:44px 36px 22px;}
+  .admin-wrap{grid-template-columns:1fr;}
+  .admin-side{display:none;}
+  .admin-main{padding:24px 18px;}
+}
+@media(max-width:640px){
+  .nav-links{display:none;}
+  .hero-left{padding:44px 22px;}
+  .sec{padding:52px 22px;}.sec-sm{padding:32px 22px;}
+  .prod-grid,.srv-grid{grid-template-columns:1fr 1fr;}
+  footer{padding:36px 22px 18px;}
+  .ft-top{grid-template-columns:1fr;}
+  .sc-row{grid-template-columns:1fr;}
+  .admin-main{padding:18px 14px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/905488511013" target="_blank" class="wa-float" id="waBtn">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="logo" onclick="goTo('home')">Doğa <span>Design</span></div>
+  <ul class="nav-links">
+    <li><span id="nl-home" class="active" onclick="goTo('home')">Ana Sayfa</span></li>
+    <li><span id="nl-products" onclick="goTo('products')">Ürünler</span></li>
+    <li><span id="nl-about" onclick="goTo('about')">Hakkımızda</span></li>
+    <li><span id="nl-contact" onclick="goTo('contact')">İletişim</span></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-sw">
+      <button class="lb active" onclick="setLang('tr',this)">TR</button>
+      <button class="lb" onclick="setLang('en',this)">EN</button>
+      <button class="lb" onclick="setLang('ar',this)">AR</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HOME ===== -->
+<div class="page active" id="pg-home" style="padding-top:80px">
+
+  <section class="hero" style="padding-top:0">
+    <div class="hero-left">
+      <div class="hero-tag" id="ht1">El Yapımı Koltuk Tasarımları</div>
+      <h1 class="hero-title" id="ht2">Konfor &amp; <em>Zarafet</em><br>Bir Arada</h1>
+      <p class="hero-desc" id="ht3">Her koltuk, ustalıkla tasarlanmış; yıllar boyu sürecek kalite ve estetiği bir arada sunar. Eviniz için en özel parçaları yaratıyoruz.</p>
+      <div class="hero-btns">
+        <button class="btn-p" onclick="goTo('products')" id="hb1">Koleksiyonu Keşfet</button>
+        <button class="btn-s" onclick="goTo('contact')" id="hb2">İletişime Geç</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-img-box">
+        <svg viewBox="0 0 64 64" fill="none" stroke="#B8B3AA" stroke-width="1.5"><rect x="8" y="24" width="48" height="24" rx="4"/><path d="M8 36H56M16 24V20a4 4 0 014-4h24a4 4 0 014 4v4"/><rect x="4" y="36" width="8" height="12" rx="2"/><rect x="52" y="36" width="8" height="12" rx="2"/><path d="M16 48v4M48 48v4"/></svg>
+        <p id="hph">Ürün Fotoğrafı</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="sec-sm" style="background:var(--off)">
+    <div class="feat-grid">
+      <div class="feat-item">
+        <svg viewBox="0 0 36 36" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M18 4l2.5 8H28l-6.5 4.5 2.5 8L18 20l-6 4.5 2.5-8L8 12h7.5z"/></svg>
+        <h4 id="f1h">Premium Kalite</h4>
+        <p id="f1p">En iyi malzemelerle üretilmiş, uzun ömürlü ürünler.</p>
+      </div>
+      <div class="feat-item">
+        <svg viewBox="0 0 36 36" fill="none" stroke="var(--accent)" stroke-width="1.5"><circle cx="18" cy="18" r="14"/><path d="M18 10v8l5 3"/></svg>
+        <h4 id="f2h">Hızlı Teslimat</h4>
+        <p id="f2p">Siparişleriniz özenle paketlenerek hızla teslim edilir.</p>
+      </div>
+      <div class="feat-item">
+        <svg viewBox="0 0 36 36" fill="none" stroke="var(--accent)" stroke-width="1.5"><circle cx="18" cy="18" r="14"/><path d="M13 18l3 3 7-7"/></svg>
+        <h4 id="f3h">Müşteri Memnuniyeti</h4>
+        <p id="f3p">Satış sonrası destek ve memnuniyet garantisi sunuyoruz.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="sec">
+    <div class="sec-hd">
+      <span class="sec-tag" id="srv-tag">Hizmetlerimiz</span>
+      <h2 class="sec-title">İhtiyacınız Olan Her Şey<br><em>Doğa Design'de</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="srv-grid">
+      <div class="srv-card"><div class="srv-img" id="si0"><svg viewBox="0 0 64 64" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M12 52V20l20-8 20 8v32"/><path d="M24 52V36h16v16"/><rect x="28" y="22" width="8" height="8"/><path d="M8 52h48"/></svg></div><div class="srv-lbl">Boya Döşeme</div></div>
+      <div class="srv-card"><div class="srv-img" id="si1"><svg viewBox="0 0 64 64" fill="none" stroke="var(--accent)" stroke-width="1.5"><polygon points="32,8 38,24 56,24 42,36 48,52 32,42 16,52 22,36 8,24 26,24"/></svg></div><div class="srv-lbl">Altın Varak İşleme</div></div>
+      <div class="srv-card"><div class="srv-img" id="si2"><svg viewBox="0 0 64 64" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="10" y="28" width="44" height="20" rx="3"/><path d="M10 38H54M18 28V24a4 4 0 014-4h20a4 4 0 014 4v4"/><rect x="6" y="38" width="8" height="10" rx="2"/><rect x="50" y="38" width="8" height="10" rx="2"/></svg></div><div class="srv-lbl">Mobilya Yenileme</div></div>
+      <div class="srv-card"><div class="srv-img" id="si3"><svg viewBox="0 0 64 64" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="16" y="8" width="32" height="48" rx="2"/><circle cx="40" cy="32" r="2.5"/><path d="M16 56H48M24 8V56"/></svg></div><div class="srv-lbl">Dış ve İç Kapı</div></div>
+      <div class="srv-card"><div class="srv-img" id="si4"><svg viewBox="0 0 64 64" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M8 56h12V44h12V32h12V20h12"/><path d="M8 56V44M20 56V44M32 44V32M44 32V20M56 20V8"/></svg></div><div class="srv-lbl">Ahşap Merdiven</div></div>
+      <div class="srv-card"><div class="srv-img" id="si5"><svg viewBox="0 0 64 64" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="8" y="32" width="48" height="20" rx="2"/><rect x="8" y="12" width="22" height="20" rx="2"/><rect x="34" y="12" width="22" height="20" rx="2"/><path d="M8 52h48M19 32V52M45 32V52"/></svg></div><div class="srv-lbl">Mutfak</div></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="mtrack">
+      <span>Mobilya</span><span class="dot">✦</span>
+      <span>Koltuk Döşeme</span><span class="dot">✦</span>
+      <span>Dış Kapı</span><span class="dot">✦</span>
+      <span>Eskiyen Mobilyalarınız Titiz İşçilikle İlk Günkü Haline Getirilir</span><span class="dot">✦</span>
+      <span>Renk Değişimi Sağlanır</span><span class="dot">✦</span>
+      <span>Mobilya</span><span class="dot">✦</span>
+      <span>Koltuk Döşeme</span><span class="dot">✦</span>
+      <span>Dış Kapı</span><span class="dot">✦</span>
+      <span>Eskiyen Mobilyalarınız Titiz İşçilikle İlk Günkü Haline Getirilir</span><span class="dot">✦</span>
+      <span>Renk Değişimi Sağlanır</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="sec">
+    <div class="sec-hd">
+      <span class="sec-tag" id="fp-tag">Koleksiyonumuz</span>
+      <h2 class="sec-title" id="fp-title">Öne Çıkan <em>Tasarımlar</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="prod-grid" id="homeProd"></div>
+    <div style="text-align:center;margin-top:44px">
+      <button class="btn-s" onclick="goTo('products')" id="see-all">Tüm Ürünleri Gör</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== PRODUCTS ===== -->
+<div class="page" id="pg-products" style="padding-top:80px">
+  <section class="sec">
+    <div class="sec-hd">
+      <span class="sec-tag" id="ap-tag">Koleksiyonumuz</span>
+      <h2 class="sec-title" id="ap-title">Tüm <em>Ürünler</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="prod-grid" id="allProd"></div>
+    <div id="noProd" style="text-align:center;padding:56px 0;color:var(--mgray);font-size:.88rem">Henüz ürün eklenmemiş.</div>
+  </section>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<div class="page" id="pg-about" style="padding-top:80px">
+  <div class="about-grid">
+    <div class="about-img-side">
+      <div class="about-img-ph">
+        <svg viewBox="0 0 64 64" fill="none" stroke="#B8B3AA" stroke-width="1.5"><rect x="8" y="8" width="48" height="48" rx="4"/><path d="M8 40l14-14 10 10 8-8 16 16"/><circle cx="22" cy="22" r="4"/></svg>
+        <p>Atölye Fotoğrafı</p>
+      </div>
+    </div>
+    <div class="about-txt">
+      <h2 id="ab-title">Kaliteli Tasarım,<br><em>Tutkuyla Üretilmiş</em></h2>
+      <p id="ab-p1">Yılların deneyimi ve ustalıkla, her koltuk parçamız özenle tasarlanmakta ve üretilmektedir. Müşterilerimizin yaşam alanlarını güzelleştirmeyi ve konforlarını artırmayı hedefliyoruz.</p>
+      <p id="ab-p2">Kullandığımız malzemeler en yüksek kalite standartlarına uygun seçilmekte, her detay titizlikle işlenmektedir. Tasarımlarımız hem modern hem de zamansız bir estetik anlayışıyla şekillenmektedir.</p>
+      <div class="stats">
+        <div><div class="stat-n">500+</div><div class="stat-l" id="st1">Mutlu Müşteri</div></div>
+        <div><div class="stat-n">10+</div><div class="stat-l" id="st2">Yıl Deneyim</div></div>
+        <div><div class="stat-n">50+</div><div class="stat-l" id="st3">Tasarım</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONTACT ===== -->
+<div class="page" id="pg-contact" style="padding-top:80px">
+  <section class="sec">
+    <div class="sec-hd">
+      <span class="sec-tag" id="ct-tag">Bize Ulaşın</span>
+      <h2 class="sec-title"><em id="ct-title">İletişim</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3 id="ct-h3">Bizimle İletişime Geçin</h3>
+        <div class="ci-item">
+          <div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--adark)" stroke-width="1.5"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+          <div><span class="ci-lbl" id="ci-lbl1">Telefon</span><span class="ci-val" id="ci-phone">0548 851 10 13</span></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--adark)" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+          <div><span class="ci-lbl" id="ci-lbl2">E-posta</span><span class="ci-val" id="ci-email">info@dogadesign.com</span></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--adark)" stroke-width="1.5"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+          <div><span class="ci-lbl" id="ci-lbl3">Adres</span><span class="ci-val" id="ci-addr">Lefkoşa Sanayi Bölgesi, KKTC</span></div>
+        </div>
+        <div class="soc-links">
+          <h4 id="soc-h4">Sosyal Medya</h4>
+          <div class="soc-row">
+            <a id="s-insta" href="#" target="_blank" class="soc-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a id="s-fb" href="#" target="_blank" class="soc-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a id="s-wa" href="https://wa.me/905488511013" target="_blank" class="soc-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+            <a id="s-tt" href="#" target="_blank" class="soc-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.23 8.23 0 004.84 1.56V6.79a4.85 4.85 0 01-1.07-.1z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3 id="cf-h3">Mesaj Gönderin</h3>
+        <div class="fg"><label id="cf-l1">Adınız Soyadınız</label><input type="text" id="cf-name"></div>
+        <div class="fg"><label id="cf-l2">E-posta</label><input type="email" id="cf-email-inp"></div>
+        <div class="fg"><label id="cf-l3">Telefon</label><input type="tel" id="cf-tel"></div>
+        <div class="fg"><label id="cf-l4">Mesajınız</label><textarea id="cf-msg"></textarea></div>
+        <button class="btn-p" onclick="sendMsg()" id="cf-btn">Gönder</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== ADMIN LOGIN ===== -->
+<div class="page" id="pg-admin-login">
+  <div class="login-wrap">
+    <div class="login-box">
+      <h2>Admin Girişi</h2>
+      <p>Yönetim paneline erişmek için giriş yapın.</p>
+      <div class="login-err" id="login-err">Kullanıcı adı veya şifre hatalı.</div>
+      <div class="fg"><label>Kullanıcı Adı</label><input type="text" id="a-user" placeholder="admin"></div>
+      <div class="fg"><label>Şifre</label><input type="password" id="a-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="btn-p" style="width:100%;margin-top:6px" onclick="doLogin()">Giriş Yap</button>
+      <p style="margin-top:18px;font-size:.72rem;color:var(--mgray);text-align:center">
+        Siteye dön: <span onclick="goTo('home')" style="cursor:pointer;color:var(--adark)">Ana Sayfa</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div class="page" id="pg-admin">
+  <div class="admin-wrap">
+    <aside class="admin-side">
+      <div class="admin-logo">Doğa <span>Design</span></div>
+      <nav class="admin-nav">
+        <div class="ani active" id="an-dash" onclick="showAP('dash')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Genel Bakış
+        </div>
+        <div class="ani" id="an-prod" onclick="showAP('prod')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+          Ürün Yönetimi
+        </div>
+        <div class="ani" id="an-set" onclick="showAP('set')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Site Ayarları
+        </div>
+      </nav>
+      <div class="admin-exit"><button onclick="goTo('home')">Çıkış Yap</button></div>
+    </aside>
+    <main class="admin-main">
+
+      <!-- DASHBOARD -->
+      <div class="ap active" id="ap-dash">
+        <div class="ap-hd"><h2>Genel Bakış</h2><p>Sitenizin özeti</p></div>
+        <div class="sc-row">
+          <div class="sc"><div class="sc-num" id="sc-prod">0</div><div class="sc-lbl">Toplam Ürün</div></div>
+          <div class="sc"><div class="sc-num" id="sc-photo">0</div><div class="sc-lbl">Toplam Fotoğraf</div></div>
+          <div class="sc"><div class="sc-num">3</div><div class="sc-lbl">Aktif Dil</div></div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--lgray);padding:26px">
+          <h4 style="font-family:var(--fd);font-size:1.15rem;font-weight:400;margin-bottom:14px">Hızlı Erişim</h4>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="ab ab-p" onclick="showAP('prod');openAdd()">+ Yeni Ürün Ekle</button>
+            <button class="ab ab-s" onclick="showAP('set')">Site Ayarları</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="ap" id="ap-prod">
+        <div class="ap-hd"><h2>Ürün Yönetimi</h2><p>Ürün ekleyin, düzenleyin veya silin</p></div>
+        <div class="pa"><button class="ab ab-p" onclick="openAdd()">+ Yeni Ürün</button></div>
+        <div class="at"><table>
+          <thead><tr><th>Görsel</th><th>Ürün Adı</th><th>Kategori</th><th>İşlemler</th></tr></thead>
+          <tbody id="prod-table"></tbody>
+        </table></div>
+        <div id="no-ap" style="padding:36px;text-align:center;color:var(--mgray);font-size:.82rem">Henüz ürün yok.</div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="ap" id="ap-set">
+        <div class="ap-hd"><h2>Site Ayarları</h2><p>İletişim bilgileri ve sosyal medya</p></div>
+        <div style="background:var(--white);border:1px solid var(--lgray);padding:32px;max-width:580px">
+          <h4 style="font-family:var(--fd);font-size:1.1rem;margin-bottom:20px;font-weight:400">İletişim</h4>
+          <div class="fg"><label>Şirket Adı</label><input type="text" id="s-name" placeholder="Doğa Design"></div>
+          <div class="fg"><label>Telefon</label><input type="text" id="s-phone"></div>
+          <div class="fg"><label>WhatsApp (ülke koduyla, örn: 905488511013)</label><input type="text" id="s-wa"></div>
+          <div class="fg"><label>E-posta</label><input type="text" id="s-email"></div>
+          <div class="fg"><label>Adres</label><input type="text" id="s-addr"></div>
+          <h4 style="font-family:var(--fd);font-size:1.1rem;margin:24px 0 18px;font-weight:400">Sosyal Medya</h4>
+          <div class="fg"><label>Instagram URL</label><input type="text" id="s-ig"></div>
+          <div class="fg"><label>Facebook URL</label><input type="text" id="s-fb"></div>
+          <div class="fg"><label>TikTok URL</label><input type="text" id="s-tk"></div>
+          <h4 style="font-family:var(--fd);font-size:1.1rem;margin:24px 0 18px;font-weight:400">Şifre Değiştir</h4>
+          <div class="fg"><label>Mevcut Şifre</label><input type="password" id="s-op"></div>
+          <div class="fg"><label>Yeni Şifre</label><input type="password" id="s-np"></div>
+          <button class="ab ab-p" onclick="saveSet()">Kaydet</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="mainFoot">
+  <div class="ft-top">
+    <div class="ft-brand">
+      <h3>Doğa <span>Design</span></h3>
+      <p id="ft-desc">El yapımı koltuk tasarımları ile evinize zarafet ve konfor katıyoruz.</p>
+    </div>
+    <div class="ft-col">
+      <h4 id="ft-pages">Sayfalar</h4>
+      <ul>
+        <li><span onclick="goTo('home')" id="ft-home">Ana Sayfa</span></li>
+        <li><span onclick="goTo('products')" id="ft-prod">Ürünler</span></li>
+        <li><span onclick="goTo('about')" id="ft-about">Hakkımızda</span></li>
+        <li><span onclick="goTo('contact')" id="ft-contact">İletişim</span></li>
+        <li><span onclick="goTo('admin-login')" style="color:rgba(255,255,255,.15)">Admin</span></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4 id="ft-ctitle">İletişim</h4>
+      <p id="ft-phone">0548 851 10 13</p>
+      <p id="ft-email">info@dogadesign.com</p>
+      <p id="ft-addr">Lefkoşa Sanayi Bölgesi, KKTC</p>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <p>© 2025 Doğa Design. Tüm hakları saklıdır.</p>
+    <p style="opacity:.3">Designed with ♥</p>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-ov" id="pModal">
+  <div class="modal">
+    <div class="mhd"><h3 id="modal-title">Yeni Ürün Ekle</h3><button class="mcl" onclick="closeModal()">✕</button></div>
+    <div class="mbd">
+      <div class="fg"><label>Ürün Adı (TR)</label><input type="text" id="p-ntr"></div>
+      <div class="fg"><label>Ürün Adı (EN)</label><input type="text" id="p-nen"></div>
+      <div class="fg"><label>Ürün Adı (AR)</label><input type="text" id="p-nar"></div>
+      <div class="fg"><label>Kategori</label>
+        <select id="p-cat">
+          <option>Köşe Koltuk</option><option>Tekli Koltuk</option><option>İkili Koltuk</option>
+          <option>Üçlü Koltuk</option><option>Berjer</option><option>Diğer</option>
+        </select>
+      </div>
+      <div class="fg"><label>Açıklama (TR)</label><textarea id="p-dtr" style="height:70px"></textarea></div>
+      <div class="fg"><label>Açıklama (EN)</label><textarea id="p-den" style="height:70px"></textarea></div>
+      <div class="fg"><label>Açıklama (AR)</label><textarea id="p-dar" style="height:70px"></textarea></div>
+      <div class="fg">
+        <label>Fotoğraflar</label>
+        <div class="upl-area" onclick="document.getElementById('fInput').click()">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--mgray)" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p>Fotoğraf yüklemek için tıklayın</p>
+        </div>
+        <input type="file" id="fInput" multiple accept="image/*" style="display:none" onchange="addImgs(event)">
+        <div class="prev-grid" id="prevGrid"></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end">
+        <button class="ab ab-s" onclick="closeModal()">İptal</button>
+        <button class="ab ab-p" onclick="saveProd()">Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+var products = [];
+var settings = {
+  phone:'0548 851 10 13', wa:'905488511013',
+  email:'info@dogadesign.com', addr:'Lefkoşa Sanayi Bölgesi, KKTC',
+  ig:'#', fb:'#', tk:'#', pass:'admin123'
+};
+try { var sp = localStorage.getItem('dg_prod'); if(sp) products = JSON.parse(sp); } catch(e){}
+try { var ss = localStorage.getItem('dg_set'); if(ss) settings = Object.assign(settings, JSON.parse(ss)); } catch(e){}
+
+var lang = 'tr';
+var editId = null;
+var imgs = [];
+
+function save() {
+  try { localStorage.setItem('dg_prod', JSON.stringify(products)); } catch(e){}
+  try { localStorage.setItem('dg_set', JSON.stringify(settings)); } catch(e){}
+}
+
+// ── NAVIGATION ──
+function goTo(page) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var el = document.getElementById('pg-' + page);
+  if(el) el.classList.add('active');
+
+  var isAdmin = (page === 'admin' || page === 'admin-login');
+  var nav = document.getElementById('mainNav');
+  var foot = document.getElementById('mainFoot');
+  var wa = document.getElementById('waBtn');
+  if(nav) nav.style.display = isAdmin ? 'none' : '';
+  if(foot) foot.style.display = isAdmin ? 'none' : '';
+  if(wa) wa.style.display = isAdmin ? 'none' : '';
+
+  document.querySelectorAll('.nav-links li span').forEach(function(s){ s.classList.remove('active'); });
+  var nl = document.getElementById('nl-' + page);
+  if(nl) nl.classList.add('active');
+
+  window.scrollTo(0,0);
+  if(page === 'products') renderAll();
+  if(page === 'home') renderHome();
+}
+
+// ── LANGUAGE ──
+var translations = {
+  tr: {
+    ht1:'El Yapımı Koltuk Tasarımları', ht2:'Konfor &amp; <em>Zarafet</em><br>Bir Arada',
+    ht3:'Her koltuk, ustalıkla tasarlanmış; yıllar boyu sürecek kalite ve estetiği bir arada sunar.',
+    hb1:'Koleksiyonu Keşfet', hb2:'İletişime Geç', hph:'Ürün Fotoğrafı',
+    f1h:'Premium Kalite', f1p:'En iyi malzemelerle üretilmiş, uzun ömürlü ürünler.',
+    f2h:'Hızlı Teslimat', f2p:'Siparişleriniz özenle paketlenerek hızla teslim edilir.',
+    f3h:'Müşteri Memnuniyeti', f3p:'Satış sonrası destek ve memnuniyet garantisi sunuyoruz.',
+    'srv-tag':'Hizmetlerimiz', 'fp-tag':'Koleksiyonumuz', 'fp-title':'Öne Çıkan <em>Tasarımlar</em>',
+    'see-all':'Tüm Ürünleri Gör',
+    'ap-tag':'Koleksiyonumuz', 'ap-title':'Tüm <em>Ürünler</em>',
+    'ab-title':'Kaliteli Tasarım,<br><em>Tutkuyla Üretilmiş</em>',
+    'ab-p1':'Yılların deneyimi ve ustalıkla, her koltuk parçamız özenle tasarlanmakta ve üretilmektedir.',
+    'ab-p2':'Kullandığımız malzemeler en yüksek kalite standartlarına uygun seçilmekte, her detay titizlikle işlenmektedir.',
+    st1:'Mutlu Müşteri', st2:'Yıl Deneyim', st3:'Tasarım',
+    'ct-tag':'Bize Ulaşın', 'ct-title':'İletişim', 'ct-h3':'Bizimle İletişime Geçin',
+    'ci-lbl1':'Telefon', 'ci-lbl2':'E-posta', 'ci-lbl3':'Adres',
+    'soc-h4':'Sosyal Medya', 'cf-h3':'Mesaj Gönderin',
+    'cf-l1':'Adınız Soyadınız', 'cf-l2':'E-posta', 'cf-l3':'Telefon', 'cf-l4':'Mesajınız',
+    'cf-btn':'Gönder', 'ft-pages':'Sayfalar', 'ft-ctitle':'İletişim',
+    'ft-home':'Ana Sayfa', 'ft-prod':'Ürünler', 'ft-about':'Hakkımızda', 'ft-contact':'İletişim',
+    'ft-desc':'El yapımı koltuk tasarımları ile evinize zarafet ve konfor katıyoruz.'
+  },
+  en: {
+    ht1:'Handcrafted Sofa Designs', ht2:'Comfort &amp; <em>Elegance</em><br>Together',
+    ht3:'Each sofa is masterfully designed — offering quality and aesthetics that last for years.',
+    hb1:'Explore Collection', hb2:'Get in Touch', hph:'Product Photo',
+    f1h:'Premium Quality', f1p:'Durable products made with the finest materials.',
+    f2h:'Fast Delivery', f2p:'Your orders are carefully packed and delivered swiftly.',
+    f3h:'Customer Satisfaction', f3p:'We offer after-sales support and satisfaction guarantee.',
+    'srv-tag':'Our Services', 'fp-tag':'Our Collection', 'fp-title':'Featured <em>Designs</em>',
+    'see-all':'View All Products',
+    'ap-tag':'Our Collection', 'ap-title':'All <em>Products</em>',
+    'ab-title':'Quality Design,<br><em>Made with Passion</em>',
+    'ab-p1':'With years of experience, each piece is carefully designed and produced.',
+    'ab-p2':'Materials are selected to the highest standards, every detail carefully crafted.',
+    st1:'Happy Customers', st2:'Years Experience', st3:'Designs',
+    'ct-tag':'Reach Us', 'ct-title':'Contact', 'ct-h3':'Get in Touch with Us',
+    'ci-lbl1':'Phone', 'ci-lbl2':'Email', 'ci-lbl3':'Address',
+    'soc-h4':'Social Media', 'cf-h3':'Send a Message',
+    'cf-l1':'Full Name', 'cf-l2':'Email', 'cf-l3':'Phone', 'cf-l4':'Your Message',
+    'cf-btn':'Send', 'ft-pages':'Pages', 'ft-ctitle':'Contact',
+    'ft-home':'Home', 'ft-prod':'Products', 'ft-about':'About', 'ft-contact':'Contact',
+    'ft-desc':'We add elegance and comfort to your home with handcrafted sofa designs.'
+  },
+  ar: {
+    ht1:'تصاميم أرائك مصنوعة يدويًا', ht2:'الراحة و<em>الأناقة</em><br>معًا',
+    ht3:'كل أريكة مصممة باحتراف — تجمع بين الجودة والجماليات التي تدوم لسنوات.',
+    hb1:'استكشف المجموعة', hb2:'تواصل معنا', hph:'صورة المنتج',
+    f1h:'جودة عالية', f1p:'منتجات متينة مصنوعة من أجود المواد.',
+    f2h:'توصيل سريع', f2p:'يتم تعبئة طلباتك بعناية وتسليمها بسرعة.',
+    f3h:'رضا العملاء', f3p:'نقدم دعمًا بعد البيع وضمان الرضا.',
+    'srv-tag':'خدماتنا', 'fp-tag':'مجموعتنا', 'fp-title':'التصاميم <em>المميزة</em>',
+    'see-all':'عرض جميع المنتجات',
+    'ap-tag':'مجموعتنا', 'ap-title':'جميع <em>المنتجات</em>',
+    'ab-title':'تصميم راقٍ،<br><em>مصنوع بشغف</em>',
+    'ab-p1':'بخبرة سنوات وحرفية، كل قطعة أريكة مصممة ومنتجة بعناية.',
+    'ab-p2':'المواد مختارة وفقًا لأعلى معايير الجودة، وكل تفصيل مُعالَج بعناية.',
+    st1:'عملاء سعداء', st2:'سنوات من الخبرة', st3:'تصاميم',
+    'ct-tag':'تواصل معنا', 'ct-title':'اتصل بنا', 'ct-h3':'تواصل معنا',
+    'ci-lbl1':'هاتف', 'ci-lbl2':'البريد الإلكتروني', 'ci-lbl3':'العنوان',
+    'soc-h4':'التواصل الاجتماعي', 'cf-h3':'أرسل رسالة',
+    'cf-l1':'الاسم الكامل', 'cf-l2':'البريد الإلكتروني', 'cf-l3':'الهاتف', 'cf-l4':'رسالتك',
+    'cf-btn':'إرسال', 'ft-pages':'الصفحات', 'ft-ctitle':'اتصل بنا',
+    'ft-home':'الرئيسية', 'ft-prod':'المنتجات', 'ft-about':'من نحن', 'ft-contact':'اتصل بنا',
+    'ft-desc':'نضيف الأناقة والراحة لمنزلك بتصاميم الأرائك المصنوعة يدويًا.'
+  }
+};
+
+function setLang(l, btn) {
+  lang = l;
+  document.querySelectorAll('.lb').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  var t = translations[l];
+  Object.keys(t).forEach(function(id) {
+    var el = document.getElementById(id);
+    if(el) el.innerHTML = t[id];
+  });
+  renderHome();
+  renderAll();
+}
+
+// ── PRODUCTS ──
+function pName(p) { return (lang==='en'?p.nen:lang==='ar'?p.nar:p.ntr)||p.ntr||'Ürün'; }
+function pDesc(p) { return (lang==='en'?p.den:lang==='ar'?p.dar:p.dtr)||p.dtr||''; }
+
+function buildCard(p) {
+  var img = (p.imgs && p.imgs.length)
+    ? '<img src="'+p.imgs[0]+'" alt="">'
+    : '<svg width="40" height="40" viewBox="0 0 64 64" fill="none" stroke="#B8B3AA" stroke-width="1.5"><rect x="8" y="8" width="48" height="48" rx="4"/><path d="M8 40l14-14 10 10 8-8 16 16"/><circle cx="22" cy="22" r="4"/></svg>';
+  return '<div class="prod-card"><div class="prod-img">'+img+'</div>'
+    +'<div class="prod-info"><div class="prod-cat">'+(p.cat||'')+'</div>'
+    +'<div class="prod-name">'+pName(p)+'</div>'
+    +'<div class="prod-desc">'+pDesc(p)+'</div></div></div>';
+}
+
+function renderHome() {
+  var g = document.getElementById('homeProd');
+  if(!g) return;
+  var list = products.slice(0,3);
+  g.innerHTML = list.length ? list.map(buildCard).join('') : '<p style="grid-column:1/-1;text-align:center;color:var(--mgray);padding:40px 0;font-size:.85rem">Henüz ürün eklenmemiş.</p>';
+}
+
+function renderAll() {
+  var g = document.getElementById('allProd');
+  var np = document.getElementById('noProd');
+  if(!g) return;
+  if(!products.length) { g.innerHTML=''; if(np) np.style.display='block'; return; }
+  if(np) np.style.display='none';
+  g.innerHTML = products.map(buildCard).join('');
+}
+
+// ── ADMIN ──
+function doLogin() {
+  var u = document.getElementById('a-user').value;
+  var p = document.getElementById('a-pass').value;
+  var err = document.getElementById('login-err');
+  if(u==='admin' && p===settings.pass) {
+    err.style.display='none';
+    goTo('admin');
+    refreshDash();
+  } else {
+    err.style.display='block';
+  }
+}
+
+function showAP(panel) {
+  document.querySelectorAll('.ap').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.ani').forEach(function(n){ n.classList.remove('active'); });
+  var ap = document.getElementById('ap-'+panel);
+  var an = document.getElementById('an-'+panel);
+  if(ap) ap.classList.add('active');
+  if(an) an.classList.add('active');
+  if(panel==='prod') renderAdminTable();
+  if(panel==='dash') refreshDash();
+  if(panel==='set') loadSet();
+}
+
+function refreshDash() {
+  var sc = document.getElementById('sc-prod');
+  var sp = document.getElementById('sc-photo');
+  if(sc) sc.textContent = products.length;
+  if(sp) sp.textContent = products.reduce(function(a,p){ return a+(p.imgs?p.imgs.length:0); }, 0);
+}
+
+function renderAdminTable() {
+  var tb = document.getElementById('prod-table');
+  var np = document.getElementById('no-ap');
+  if(!tb) return;
+  if(!products.length) { tb.innerHTML=''; if(np) np.style.display='block'; return; }
+  if(np) np.style.display='none';
+  tb.innerHTML = products.map(function(p) {
+    var th = (p.imgs && p.imgs.length)
+      ? '<img src="'+p.imgs[0]+'" class="ath" alt="">'
+      : '<div class="athp"><svg viewBox="0 0 24 24" fill="none" stroke="#B8B3AA" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg></div>';
+    return '<tr><td>'+th+'</td><td style="font-weight:500">'+(p.ntr||'-')+'</td><td>'+(p.cat||'-')+'</td>'
+      +'<td><div style="display:flex;gap:7px">'
+      +'<button class="ab ab-s" style="padding:5px 12px;font-size:.7rem" onclick="openEdit(\''+p.id+'\')">Düzenle</button>'
+      +'<button class="ab ab-d" style="padding:5px 12px;font-size:.7rem" onclick="delProd(\''+p.id+'\')">Sil</button>'
+      +'</div></td></tr>';
+  }).join('');
+}
+
+function delProd(id) {
+  if(!confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
+  products = products.filter(function(p){ return p.id!==id; });
+  save(); renderAdminTable(); refreshDash(); toast('Ürün silindi.');
+}
+
+// ── MODAL ──
+function openAdd() {
+  editId=null; imgs=[];
+  document.getElementById('modal-title').textContent='Yeni Ürün Ekle';
+  ['p-ntr','p-nen','p-nar','p-dtr','p-den','p-dar'].forEach(function(id){
+    document.getElementById(id).value='';
+  });
+  document.getElementById('p-cat').value='Köşe Koltuk';
+  renderPrevs();
+  document.getElementById('pModal').classList.add('open');
+}
+
+function openEdit(id) {
+  var p = products.find(function(x){ return x.id===id; });
+  if(!p) return;
+  editId=id; imgs=[].concat(p.imgs||[]);
+  document.getElementById('modal-title').textContent='Ürünü Düzenle';
+  document.getElementById('p-ntr').value=p.ntr||'';
+  document.getElementById('p-nen').value=p.nen||'';
+  document.getElementById('p-nar').value=p.nar||'';
+  document.getElementById('p-cat').value=p.cat||'Köşe Koltuk';
+  document.getElementById('p-dtr').value=p.dtr||'';
+  document.getElementById('p-den').value=p.den||'';
+  document.getElementById('p-dar').value=p.dar||'';
+  renderPrevs();
+  document.getElementById('pModal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('pModal').classList.remove('open'); }
+
+function addImgs(e) {
+  var files = Array.from(e.target.files);
+  var done = 0;
+  files.forEach(function(f) {
+    var r = new FileReader();
+    r.onload = function(ev) { imgs.push(ev.target.result); done++; if(done===files.length) renderPrevs(); };
+    r.readAsDataURL(f);
+  });
+  e.target.value='';
+}
+
+function rmImg(i) { imgs.splice(i,1); renderPrevs(); }
+
+function renderPrevs() {
+  var g = document.getElementById('prevGrid');
+  g.innerHTML = imgs.map(function(src,i) {
+    return '<div class="prev-item"><img src="'+src+'" alt=""><button class="prev-rm" onclick="rmImg('+i+')">✕</button></div>';
+  }).join('');
+}
+
+function saveProd() {
+  var ntr = document.getElementById('p-ntr').value.trim();
+  if(!ntr) { alert('Ürün adı (TR) zorunludur.'); return; }
+  var p = {
+    id: editId || ('p'+Date.now()),
+    ntr: ntr,
+    nen: document.getElementById('p-nen').value.trim(),
+    nar: document.getElementById('p-nar').value.trim(),
+    cat: document.getElementById('p-cat').value,
+    dtr: document.getElementById('p-dtr').value.trim(),
+    den: document.getElementById('p-den').value.trim(),
+    dar: document.getElementById('p-dar').value.trim(),
+    imgs: [].concat(imgs)
+  };
+  if(editId) {
+    var idx = products.findIndex(function(x){ return x.id===editId; });
+    if(idx!==-1) products[idx]=p;
+  } else {
+    products.push(p);
+  }
+  save(); closeModal(); renderAdminTable(); refreshDash();
+  toast(editId ? 'Ürün güncellendi.' : 'Ürün eklendi.');
+}
+
+// ── SETTINGS ──
+function loadSet() {
+  document.getElementById('s-phone').value = settings.phone||'';
+  document.getElementById('s-wa').value = settings.wa||'';
+  document.getElementById('s-email').value = settings.email||'';
+  document.getElementById('s-addr').value = settings.addr||'';
+  document.getElementById('s-ig').value = settings.ig||'';
+  document.getElementById('s-fb').value = settings.fb||'';
+  document.getElementById('s-tk').value = settings.tk||'';
+  document.getElementById('s-op').value='';
+  document.getElementById('s-np').value='';
+}
+
+function saveSet() {
+  var op = document.getElementById('s-op').value;
+  var np = document.getElementById('s-np').value;
+  if(op||np) {
+    if(op!==settings.pass) { alert('Mevcut şifre hatalı.'); return; }
+    if(np.length<4) { alert('Yeni şifre en az 4 karakter olmalı.'); return; }
+    settings.pass=np;
+  }
+  settings.phone = document.getElementById('s-phone').value.trim();
+  settings.wa    = document.getElementById('s-wa').value.trim();
+  settings.email = document.getElementById('s-email').value.trim();
+  settings.addr  = document.getElementById('s-addr').value.trim();
+  settings.ig    = document.getElementById('s-ig').value.trim()||'#';
+  settings.fb    = document.getElementById('s-fb').value.trim()||'#';
+  settings.tk    = document.getElementById('s-tk').value.trim()||'#';
+  save(); applySet(); toast('Ayarlar kaydedildi.');
+}
+
+function applySet() {
+  var ids = {
+    'ci-phone':settings.phone,'ci-email':settings.email,'ci-addr':settings.addr,
+    'ft-phone':settings.phone,'ft-email':settings.email,'ft-addr':settings.addr
+  };
+  Object.keys(ids).forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=ids[id]; });
+  var si = document.getElementById('s-insta'); if(si) si.href=settings.ig;
+  var sf = document.getElementById('s-fb'); if(sf) sf.href=settings.fb;
+  var st = document.getElementById('s-tt'); if(st) st.href=settings.tk;
+  var sw = document.getElementById('s-wa2'); if(sw) sw.href='https://wa.me/'+settings.wa;
+  var wa = document.getElementById('waBtn'); if(wa) wa.href='https://wa.me/'+settings.wa;
+}
+
+// ── CONTACT FORM ──
+function sendMsg() {
+  var n = document.getElementById('cf-name').value.trim();
+  var e = document.getElementById('cf-email-inp').value.trim();
+  if(!n||!e) { toast('Lütfen adınızı ve e-postanızı girin.'); return; }
+  toast('Mesajınız alındı! En kısa sürede dönüş yapacağız.');
+  ['cf-name','cf-email-inp','cf-tel','cf-msg'].forEach(function(id){ document.getElementById(id).value=''; });
+}
+
+// ── TOAST ──
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// ── INIT ──
+applySet();
+renderHome();
+</script>
+</body>
+</html>
